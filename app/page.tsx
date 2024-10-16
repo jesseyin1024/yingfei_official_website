@@ -1,23 +1,64 @@
-import Image from "next/image";
+"use client";
 import Link from "next/link";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { useState, useEffect } from "react";
 
 export default function Home() {
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const pageHeight = document.documentElement.scrollHeight;
+      const viewportHeight = window.innerHeight;
+      
+      // Show button when scrolled down 300px or near the bottom of the page
+      if (scrollY > 300 || (pageHeight - (scrollY + viewportHeight) < 100)) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToElement = (elementId: string) => {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className="min-h-screen flex flex-col font-sans">
       {/* Header */}
       <header className="bg-white shadow-md sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <svg width="180" height="60" viewBox="0 0 180 60" xmlns="http://www.w3.org/2000/svg">
-            <text x="10" y="40" fontFamily="Arial, sans-serif" fontSize="32" fontWeight="bold" fill="#0056b3">英飞科技</text>
-          </svg>
+          <div onClick={scrollToTop} className="cursor-pointer">
+            <svg width="180" height="60" viewBox="0 0 180 60" xmlns="http://www.w3.org/2000/svg">
+              <text x="10" y="40" fontFamily="Arial, sans-serif" fontSize="32" fontWeight="bold" fill="#0056b3">英飞科技</text>
+            </svg>
+          </div>
           <nav className="flex-grow flex justify-center">
             <ul className="flex space-x-6">
               {["产品与服务", "案例研究", "新闻与活动", "核心团队"].map((item) => (
                 <li key={item}>
-                  <Link href={`#${item}`} className="text-gray-600 hover:text-blue-600 transition duration-300">
+                  <a 
+                    href={`#${item}`} 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToElement(item);
+                    }}
+                    className="text-gray-600 hover:text-blue-600 transition duration-300 cursor-pointer"
+                  >
                     {item}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -46,47 +87,56 @@ export default function Home() {
         <div className="relative z-20 h-full flex flex-col justify-center items-center text-white text-center px-4">
           <div className="flex flex-col items-center max-w-4xl mb-16">
             <h1 className="text-4xl md:text-5xl font-bold mb-10">智慧赋能能源未来，创新驱动电力革命</h1>
-            <p className="text-lg md:text-xl font-light max-w-3xl">英飞科技利用前沿AI与超算技术，推动智慧能源发展，共创清洁高效的能源互联未来</p>
+            <p className="text-lg md:text-xl font-light max-w-3xl">英飞科技利用前沿AI与超算技术，推动智慧能源发展，共创清洁高效的能联未来</p>
           </div>
           <div className="absolute bottom-8 flex flex-col items-center">
-            <Link 
-              href="#" 
-              className="text-white text-sm mb-8 no-underline"
+            <a 
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToElement('产品与服务');
+              }}
+              className="text-white text-sm mb-8 no-underline hover:underline cursor-pointer"
             >
               发现更多
-            </Link>
-            <ChevronDown className="animate-bounce" size={32} />
+            </a>
+            <ChevronDown 
+              className="animate-bounce cursor-pointer" 
+              size={32} 
+              onClick={() => scrollToElement('产品与服务')}
+            />
           </div>
         </div>
       </section>
 
-      {/* Featured Content */}
-      <section className="py-16">
+      {/* Products & Services Section */}
+      <section id="产品与服务" className="py-24 bg-gray-100">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {["新能源电站数据服务", "电力交易量化策略", "智能运维"].map((service) => (
-              <div key={service} className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="text-xl font-semibold mb-4">{service}</h3>
-                <p className="text-gray-600 mb-4">利用先进的AI技术，为客户提供高效、精准的解决方案。</p>
-                <Link href="#" className="text-blue-600 hover:underline">了解更多</Link>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Latest News */}
-      <section className="bg-gray-100 py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-8">最新动态</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-white rounded-lg overflow-hidden shadow-md">
-                <Image src={`/placeholder-${i}.jpg`} alt="News Image" width={400} height={200} className="w-full h-48 object-cover" />
-                <div className="p-6">
-                  <h3 className="font-bold text-xl mb-2">新闻标题 {i}</h3>
-                  <p className="text-gray-600 mb-4">新闻简短描述...</p>
-                  <Link href="#" className="text-blue-600 hover:underline">阅读更多</Link>
+          <h2 className="text-4xl font-bold mb-16 text-center">产品与服务</h2>
+          <div className="space-y-32">
+            {[
+              {
+                title: "智能电力交易策略系统",
+                content: "利用超算和人工智能技术，为客户提供高效的量化电力交易策略，通过对电力市场的趋势进行实时分析和预测，帮助市场参与者提高盈利能力，降低运营成本。系统适用于新能源电站、火电、储能等多种场景，助力实现精准、高效的电力交易。",
+                image: "/placeholder-image-1.jpg"
+              },
+              {
+                title: "新能源数据服务与智能调度",
+                content: "基于先进的数据采集与超算分析技术，为新能源电站提供功率预测、智能运维和精确调度服务。通过提高发电量预测的准确性，增强电网调度的平衡能力，确保电力供需的稳定，实现风电、光伏等可再生能源的高效利用。",
+                image: "/placeholder-image-2.jpg"
+              },
+              {
+                title: "智能硬件与设备数据分析",
+                content: "与设备厂商深度合作，通过数据分析了解设备运行特征，优化产品性能，提高产品的智能化程度。结合AI技术，为设备厂商提供设备运维数据支持，提升设备的竞争力，助力实现电站和智能硬件的高效运维。",
+                image: "/placeholder-image-3.jpg"
+              }
+            ].map((service, index) => (
+              <div key={index} className={`relative flex ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
+                <div className="w-3/4 z-10">
+                  <img src={service.image} alt={service.title} className="w-full h-auto object-cover rounded-lg shadow-xl" />
+                </div>
+                <div className={`w-1/2 bg-white p-8 rounded-lg shadow-lg absolute ${index % 2 === 0 ? 'right-0' : 'left-0'} top-1/2 transform -translate-y-1/2 z-20`}>
+                  <h3 className="text-3xl font-bold mb-6">{service.title}</h3>
+                  <p className="text-base leading-relaxed">{service.content}</p>
                 </div>
               </div>
             ))}
@@ -133,6 +183,16 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* Scroll to top button */}
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors z-50"
+        >
+          <ChevronUp size={24} />
+        </button>
+      )}
     </div>
   );
 }
