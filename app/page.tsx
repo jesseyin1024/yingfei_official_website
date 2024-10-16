@@ -1,100 +1,117 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="min-h-screen flex flex-col font-sans">
+      {/* Header */}
+      <header className="bg-white shadow-md sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+            <text x="10" y="25" fontFamily="Arial, sans-serif" fontSize="20" fontWeight="bold" fill="#0056b3">英飞科技</text>
+          </svg>
+          <nav>
+            <ul className="flex space-x-6">
+              {["主页", "产品与服务", "案例研究", "新闻与活动", "关于我们", "联系我们"].map((item) => (
+                <li key={item}>
+                  <Link href={`#${item}`} className="text-gray-600 hover:text-blue-600 transition duration-300">
+                    {item}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      </header>
+
+      {/* Hero Section */}
+      <section id="主页" className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
+        <div className="container mx-auto px-4">
+          <h1 className="text-5xl font-bold mb-4">引领人工智能计算的未来</h1>
+          <p className="text-xl mb-8">英飞科技致力于为新能源行业提供智能化解决方案</p>
+          <Link href="#产品与服务" className="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition duration-300">
+            了解更多
+          </Link>
+        </div>
+      </section>
+
+      {/* Products & Services Section */}
+      <section id="产品与服务" className="py-16 bg-gray-100">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-8 text-center">我们的产品与服务</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {["新能源电站数据服务", "电力交易量化策略", "智能运维"].map((service) => (
+              <div key={service} className="bg-white p-6 rounded-lg shadow-md">
+                <h3 className="text-xl font-semibold mb-4">{service}</h3>
+                <p className="text-gray-600">利用先进的AI技术，为客户提供高效、精准的解决方案。</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Case Studies Section */}
+      <section id="案例研究" className="py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-8 text-center">成功案例</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {["甘肃风电项目", "新疆光伏项目"].map((project) => (
+              <div key={project} className="bg-white p-6 rounded-lg shadow-md">
+                <h3 className="text-xl font-semibold mb-4">{project}</h3>
+                <p className="text-gray-600 mb-4">通过我们的AI解决方案，显著提高了项目效率和收益。</p>
+                <Link href="#" className="text-blue-600 hover:underline">查看详情</Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* News & Events Section */}
+      <section id="新闻与活动" className="py-16 bg-gray-100">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-8 text-center">新闻与活动</h2>
+          <div className="space-y-8">
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-semibold mb-2">英飞科技荣获全国工业互联网数据创新应用大赛新能源赛道一等奖</h3>
+              <p className="text-gray-600">这一荣誉彰显了我们在新能源领域的创新能力和技术实力。</p>
+            </div>
+            {/* Add more news items here */}
+          </div>
+        </div>
+      </section>
+
+      {/* About Us Section */}
+      <section id="关于我们" className="py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-8 text-center">关于英飞科技</h2>
+          <p className="text-gray-600 text-center max-w-3xl mx-auto">
+            英飞科技是一家专注于人工智能计算和新能源领域的高科技公司。我们致力于通过创新技术推动行业发展，为客户创造更大价值。
+          </p>
+        </div>
+      </section>
+
+      {/* Contact Us Section */}
+      <section id="联系我们" className="py-16 bg-gray-100">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-8 text-center">联系我们</h2>
+          <div className="max-w-md mx-auto">
+            <form className="space-y-4">
+              <input type="text" placeholder="姓名" className="w-full p-2 border rounded" />
+              <input type="email" placeholder="邮箱" className="w-full p-2 border rounded" />
+              <textarea placeholder="留言" className="w-full p-2 border rounded" rows={4}></textarea>
+              <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition duration-300">
+                发送
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-800 text-white py-8">
+        <div className="container mx-auto px-4 text-center">
+          <p>&copy; 2024 英飞科技. 保留所有权利。</p>
+        </div>
       </footer>
     </div>
   );
